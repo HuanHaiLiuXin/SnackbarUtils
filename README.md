@@ -1,5 +1,6 @@
 # SnackbarUtils
 Snackbar工具类
+![](https://github.com/HuanHaiLiuXin/SnackbarUtils/blob/master/%E5%BD%95%E5%B1%8F/%E6%89%80%E6%9C%89%E6%95%88%E6%9E%9C.gif)
         
         功能:
             1:设置Snackbar显示时间长短
