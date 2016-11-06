@@ -1,5 +1,8 @@
 # SnackbarUtils
 Snackbar工具类
+        截屏:
+            
+        
 
         功能:
             1:设置Snackbar显示时间长短
