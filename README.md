@@ -83,15 +83,6 @@
 
                 {@link SnackbarUtils#bellow(View, int, int, int)}
                 注意:同15
-### 参考:
-&emsp;&emsp;写的很好的Snackbar源码分析  
-&emsp;&emsp;http://blog.csdn.net/wuyuxing24/article/details/51220415  
-&emsp;&emsp;借鉴了作者部分写法,自定义显示时间 及 向Snackbar中添加View  
-&emsp;&emsp;http://www.jianshu.com/p/cd1e80e64311  
-&emsp;&emsp;借鉴了作者部分写法,4种类型的背景色 及 方法调用的便捷性  
-&emsp;&emsp;http://www.jianshu.com/p/e3c82b98f151  
-&emsp;&emsp;大神'工匠若水'的文章'Android应用坐标系统全面详解',用于计算Snackbar显示的精确位置  
-&emsp;&emsp;http://blog.csdn.net/yanbober/article/details/50419117
 ### 示例:
         在Activity中:
         int total = 0;
@@ -104,3 +95,18 @@
                 .radius(16,1,Color.BLUE)
                 .bellow(bt_margins,total,16,16)
                 .show();
+### 参考:
+&emsp;&emsp;写的很好的Snackbar源码分析  
+&emsp;&emsp;http://blog.csdn.net/wuyuxing24/article/details/51220415  
+&emsp;&emsp;借鉴了作者部分写法,自定义显示时间 及 向Snackbar中添加View  
+&emsp;&emsp;http://www.jianshu.com/p/cd1e80e64311  
+&emsp;&emsp;借鉴了作者部分写法,4种类型的背景色 及 方法调用的便捷性  
+&emsp;&emsp;http://www.jianshu.com/p/e3c82b98f151  
+&emsp;&emsp;大神'工匠若水'的文章'Android应用坐标系统全面详解',用于计算Snackbar显示的精确位置  
+&emsp;&emsp;http://blog.csdn.net/yanbober/article/details/50419117
+### 开发者:
+&emsp;&emsp;**幻海流心**  
+&emsp;&emsp;**QQ:**472868476  
+&emsp;&emsp;**Email:**wall0920@163.com  
+&emsp;&emsp;**简书:**http://www.jianshu.com/users/5702e6847f31/latest_articles  
+&emsp;&emsp;**GitHub:**https://github.com/HuanHaiLiuXin  
