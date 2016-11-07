@@ -33,4 +33,5 @@
     <string name="messageviewgravity">TextView文字对齐方式</string>
     <string name="snackbargravity">Snackbar位置</string>
     <string name="multimethods">同时使用多种方法</string>
+    <string name="crazybutton">疯狂测试!!!</string>
 </resources>

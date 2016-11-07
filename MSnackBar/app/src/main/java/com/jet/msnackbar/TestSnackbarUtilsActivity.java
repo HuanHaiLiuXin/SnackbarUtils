@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
@@ -13,6 +14,7 @@ import android.widget.Toast;
 
 public class TestSnackbarUtilsActivity extends AppCompatActivity implements View.OnClickListener{
     private Context context = null;
+    private Button crazybutton;
     private Button bt_short,bt_long,bt_indefinite,bt_length_custom,
             bt_info,bt_confirm,bt_warn,bt_danger,bt_back_custom,
             bt_color_message,bt_color_action,bt_back_alpha,bt_action,bt_callback,
@@ -26,6 +28,9 @@ public class TestSnackbarUtilsActivity extends AppCompatActivity implements View
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test_snackbar_utils);
         context = this;
+        //
+        crazybutton = (Button) findViewById(R.id.crazybutton);
+        crazybutton.setOnClickListener(this);
         //
         bt_short = (Button) findViewById(R.id.bt_short);
         findViewById(R.id.bt_short).setOnClickListener(this);
@@ -102,7 +107,7 @@ public class TestSnackbarUtilsActivity extends AppCompatActivity implements View
                 break;
             case R.id.bt_length_custom:
                 //TODO implement
-                SnackbarUtils.Custom(bt_length_custom,"显示时长:自定义 10秒+info",1000*10).info().show();
+                SnackbarUtils.Custom(bt_length_custom,"显示时长:自定义 3秒+info",1000*3).info().show();
                 break;
             case R.id.bt_info:
                 //TODO implement
@@ -193,7 +198,7 @@ public class TestSnackbarUtilsActivity extends AppCompatActivity implements View
                 break;
             case R.id.bt_radius_stroke:
                 //TODO implement
-                SnackbarUtils.Short(bt_radius_stroke,"设置圆角半径值及边框").radius(30,1,Color.GREEN).show();
+                SnackbarUtils.Short(bt_radius_stroke,"设置圆角半径值及边框").radius(30,4,Color.GREEN).show();
                 break;
             case R.id.bt_gravity_default:
                 //TODO implement
@@ -238,15 +243,19 @@ public class TestSnackbarUtilsActivity extends AppCompatActivity implements View
                 int[] l3 = new int[2];
                 getWindow().findViewById(android.R.id.content).getLocationInWindow(l3);
                 total2 = l3[1];
-                SnackbarUtils.Custom(bt_multimethods,"10s+左右drawable+背景色+圆角带边框+指定View下方",1000*10)
+                SnackbarUtils.Custom(bt_multimethods,"5s+左右drawable+背景色+圆角带边框+指定View下方",1000*5)
                         .leftAndRightDrawable(R.mipmap.i10,R.mipmap.i11)
                         .backColor(0XFF668899)
-                        .radius(16,1,Color.BLUE)
+                        .radius(16,4,Color.BLUE)
                         .bellow(bt_margins,total2,16,16)
                         .show();
                 break;
-            default:
-                break;
+            case R.id.crazybutton:
+                while (true){
+                    Log.e("Jet","测试奔溃前执行次数:"+(++mCount));
+                    SnackbarUtils.Short(bt_short,"测试内存泄漏"+mCount).info().gravityFrameLayout(Gravity.CENTER).show();
+                }
         }
     }
+    private int mCount = 0;
 }
