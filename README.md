@@ -1,7 +1,8 @@
 # SnackbarUtils
 ## Snackbar工具类
 ### 简介:
-&emsp;&emsp;Snackbar在项目中的使用场景越来越多,可全面的替代Toast,比Toast有更好的体验.该工具类可以方便的对Snackbar的样式,显示时间,位置等属性进行设置,方法比较丰富,调用简单,应该可以满足Snackbar绝大部分的使用场景!
+&emsp;&emsp;Snackbar在项目中的使用场景越来越多,可全面的替代Toast,比Toast有更好的体验.该工具类可以方便的对Snackbar的样式,显示时间,位置等属性进行设置,方法比较丰富,调用简单,应该可以满足Snackbar绝大部分的使用场景!  
+&emsp;&emsp;[**简书:**SnackbarUtils:一行代码搞定Snackbar](http://www.jianshu.com/p/f4ba05d7bbda)
 ### 截屏:
 &emsp;&emsp;![](https://github.com/HuanHaiLiuXin/SnackbarUtils/blob/master/%E5%BD%95%E5%B1%8F/%E6%89%80%E6%9C%89%E5%8A%9F%E8%83%BD%E5%BD%95%E5%B1%8F.gif)
 ### 功能点及对应的方法: 
