@@ -104,7 +104,10 @@
 &emsp;&emsp;借鉴了作者部分写法,4种类型的背景色 及 方法调用的便捷性  
 &emsp;&emsp;http://www.jianshu.com/p/e3c82b98f151  
 &emsp;&emsp;大神'工匠若水'的文章'Android应用坐标系统全面详解',用于计算Snackbar显示的精确位置  
-&emsp;&emsp;http://blog.csdn.net/yanbober/article/details/50419117
+&emsp;&emsp;http://blog.csdn.net/yanbober/article/details/50419117  
+&emsp;&emsp;通过Blankj的指正,尝试使用弱引用来解决Snackbar引起的内存泄漏  
+&emsp;&emsp;http://www.jianshu.com/p/042d2e8d5748
+
 ### 开发者:
 &emsp;&emsp;**幻海流心**  
 &emsp;&emsp;**QQ:**472868476  
