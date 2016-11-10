@@ -7,6 +7,7 @@ import android.graphics.drawable.GradientDrawable;
 import android.os.Build;
 import android.support.annotation.ColorInt;
 import android.support.annotation.DrawableRes;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.design.widget.CoordinatorLayout;
@@ -21,8 +22,6 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
-import java.lang.ref.WeakReference;
 
 /**
     Snackbar工具类
@@ -115,21 +114,21 @@ import java.lang.ref.WeakReference;
  * 2016/11/2 13:56
  */
 
-public class SnackbarUtils {
+public final class SnackbarUtils {
     //设置Snackbar背景颜色
     private static final int color_info = 0XFF2094F3;
     private static final int color_confirm = 0XFF4CB04E;
     private static final int color_warning = 0XFFFEC005;
     private static final int color_danger = 0XFFF44336;
     //工具类当前持有的Snackbar实例
-    private static WeakReference<Snackbar> snackbarWeakReference;
+    private Snackbar mSnackbar = null;
 
     private SnackbarUtils(){
         throw new RuntimeException("禁止无参创建实例");
     }
 
-    public SnackbarUtils(@Nullable WeakReference<Snackbar> snackbarWeakReference){
-        this.snackbarWeakReference = snackbarWeakReference;
+    private SnackbarUtils(@NonNull Snackbar snackbar){
+        this.mSnackbar = snackbar;
     }
 
     /**
@@ -137,11 +136,7 @@ public class SnackbarUtils {
      * @return
      */
     public Snackbar getSnackbar() {
-        if(this.snackbarWeakReference != null && this.snackbarWeakReference.get()!=null){
-            return this.snackbarWeakReference.get();
-        }else {
-            return null;
-        }
+        return mSnackbar;
     }
 
     /**
@@ -176,7 +171,7 @@ public class SnackbarUtils {
         </shape>
         <color name="design_snackbar_background_color">#323232</color>
         */
-        return new SnackbarUtils(new WeakReference<Snackbar>(Snackbar.make(view,message,Snackbar.LENGTH_SHORT))).backColor(0XFF323232);
+        return new SnackbarUtils(Snackbar.make(view,message,Snackbar.LENGTH_SHORT)).backColor(0XFF323232);
     }
     /**
      * 初始化Snackbar实例
@@ -186,7 +181,7 @@ public class SnackbarUtils {
      * @return
      */
     public static SnackbarUtils Long(View view, String message){
-        return new SnackbarUtils(new WeakReference<Snackbar>(Snackbar.make(view,message,Snackbar.LENGTH_LONG))).backColor(0XFF323232);
+        return new SnackbarUtils(Snackbar.make(view,message,Snackbar.LENGTH_LONG)).backColor(0XFF323232);
     }
     /**
      * 初始化Snackbar实例
@@ -196,7 +191,7 @@ public class SnackbarUtils {
      * @return
      */
     public static SnackbarUtils Indefinite(View view, String message){
-        return new SnackbarUtils(new WeakReference<Snackbar>(Snackbar.make(view,message,Snackbar.LENGTH_INDEFINITE))).backColor(0XFF323232);
+        return new SnackbarUtils(Snackbar.make(view,message,Snackbar.LENGTH_INDEFINITE)).backColor(0XFF323232);
     }
     /**
      * 初始化Snackbar实例
@@ -207,48 +202,36 @@ public class SnackbarUtils {
      * @return
      */
     public static SnackbarUtils Custom(View view, String message, int duration){
-        return new SnackbarUtils(new WeakReference<Snackbar>(Snackbar.make(view,message,Snackbar.LENGTH_SHORT).setDuration(duration))).backColor(0XFF323232);
+        return new SnackbarUtils(Snackbar.make(view,message,Snackbar.LENGTH_SHORT).setDuration(duration)).backColor(0XFF323232);
     }
 
     /**
      * 设置mSnackbar背景色为  color_info
      */
     public SnackbarUtils info(){
-        Snackbar snackbar = getSnackbar();
-        if(snackbar!=null){
-            snackbar.getView().setBackgroundColor(color_info);
-        }
-        return new SnackbarUtils(snackbarWeakReference);
+        mSnackbar.getView().setBackgroundColor(color_info);
+        return new SnackbarUtils(mSnackbar);
     }
     /**
      * 设置mSnackbar背景色为  color_confirm
      */
     public SnackbarUtils confirm(){
-        Snackbar snackbar = getSnackbar();
-        if(snackbar!=null){
-            snackbar.getView().setBackgroundColor(color_confirm);
-        }
-        return new SnackbarUtils(snackbarWeakReference);
+        mSnackbar.getView().setBackgroundColor(color_confirm);
+        return new SnackbarUtils(mSnackbar);
     }
     /**
      * 设置Snackbar背景色为   color_warning
      */
     public SnackbarUtils warning(){
-        Snackbar snackbar = getSnackbar();
-        if(snackbar!=null){
-            snackbar.getView().setBackgroundColor(color_warning);
-        }
-        return new SnackbarUtils(snackbarWeakReference);
+        mSnackbar.getView().setBackgroundColor(color_warning);
+        return new SnackbarUtils(mSnackbar);
     }
     /**
      * 设置Snackbar背景色为   color_warning
      */
     public SnackbarUtils danger(){
-        Snackbar snackbar = getSnackbar();
-        if(snackbar!=null){
-            snackbar.getView().setBackgroundColor(color_danger);
-        }
-        return new SnackbarUtils(snackbarWeakReference);
+        mSnackbar.getView().setBackgroundColor(color_danger);
+        return new SnackbarUtils(mSnackbar);
     }
 
     /**
@@ -256,11 +239,8 @@ public class SnackbarUtils {
      * @param backgroundColor
      */
     public SnackbarUtils backColor(@ColorInt int backgroundColor){
-        Snackbar snackbar = getSnackbar();
-        if(snackbar!=null){
-            snackbar.getView().setBackgroundColor(backgroundColor);
-        }
-        return new SnackbarUtils(snackbarWeakReference);
+        mSnackbar.getView().setBackgroundColor(backgroundColor);
+        return new SnackbarUtils(mSnackbar);
     }
 
     /**
@@ -268,11 +248,8 @@ public class SnackbarUtils {
      * @param messageColor
      */
     public SnackbarUtils messageColor(@ColorInt int messageColor){
-        Snackbar snackbar = getSnackbar();
-        if(snackbar!=null){
-            ((TextView)snackbar.getView().findViewById(R.id.snackbar_text)).setTextColor(messageColor);
-        }
-        return new SnackbarUtils(snackbarWeakReference);
+        ((TextView)mSnackbar.getView().findViewById(R.id.snackbar_text)).setTextColor(messageColor);
+        return new SnackbarUtils(mSnackbar);
     }
 
     /**
@@ -280,11 +257,8 @@ public class SnackbarUtils {
      * @param actionTextColor
      */
     public SnackbarUtils actionColor(@ColorInt int actionTextColor){
-        Snackbar snackbar = getSnackbar();
-        if(snackbar!=null){
-            ((Button)snackbar.getView().findViewById(R.id.snackbar_action)).setTextColor(actionTextColor);
-        }
-        return new SnackbarUtils(snackbarWeakReference);
+        ((Button)mSnackbar.getView().findViewById(R.id.snackbar_action)).setTextColor(actionTextColor);
+        return new SnackbarUtils(mSnackbar);
     }
 
     /**
@@ -294,13 +268,10 @@ public class SnackbarUtils {
      * @param actionTextColor
      */
     public SnackbarUtils colors(@ColorInt int backgroundColor, @ColorInt int messageColor, @ColorInt int actionTextColor){
-        Snackbar snackbar = getSnackbar();
-        if(snackbar!=null){
-            snackbar.getView().setBackgroundColor(backgroundColor);
-            ((TextView)snackbar.getView().findViewById(R.id.snackbar_text)).setTextColor(messageColor);
-            ((Button)snackbar.getView().findViewById(R.id.snackbar_action)).setTextColor(actionTextColor);
-        }
-        return new SnackbarUtils(snackbarWeakReference);
+        mSnackbar.getView().setBackgroundColor(backgroundColor);
+        ((TextView)mSnackbar.getView().findViewById(R.id.snackbar_text)).setTextColor(messageColor);
+        ((Button)mSnackbar.getView().findViewById(R.id.snackbar_action)).setTextColor(actionTextColor);
+        return new SnackbarUtils(mSnackbar);
     }
 
     /**
@@ -309,12 +280,9 @@ public class SnackbarUtils {
      * @return
      */
     public SnackbarUtils alpha(float alpha){
-        Snackbar snackbar = getSnackbar();
-        if(snackbar!=null){
-            alpha = alpha>=1.0f?1.0f:(alpha<=0.0f?0.0f:alpha);
-            snackbar.getView().setAlpha(alpha);
-        }
-        return new SnackbarUtils(snackbarWeakReference);
+        alpha = alpha>=1.0f?1.0f:(alpha<=0.0f?0.0f:alpha);
+        mSnackbar.getView().setAlpha(alpha);
+        return new SnackbarUtils(mSnackbar);
     }
 
     /**
@@ -322,13 +290,10 @@ public class SnackbarUtils {
      * @param gravity
      */
     public SnackbarUtils gravityFrameLayout(int gravity){
-        Snackbar snackbar = getSnackbar();
-        if(snackbar!=null){
-            FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(snackbarWeakReference.get().getView().getLayoutParams().width,snackbarWeakReference.get().getView().getLayoutParams().height);
-            params.gravity = gravity;
-            snackbar.getView().setLayoutParams(params);
-        }
-        return new SnackbarUtils(snackbarWeakReference);
+        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(mSnackbar.getView().getLayoutParams().width,mSnackbar.getView().getLayoutParams().height);
+        params.gravity = gravity;
+        mSnackbar.getView().setLayoutParams(params);
+        return new SnackbarUtils(mSnackbar);
     }
 
     /**
@@ -336,13 +301,10 @@ public class SnackbarUtils {
      * @param gravity
      */
     public SnackbarUtils gravityCoordinatorLayout(int gravity){
-        Snackbar snackbar = getSnackbar();
-        if(snackbar!=null){
-            CoordinatorLayout.LayoutParams params = new CoordinatorLayout.LayoutParams(snackbarWeakReference.get().getView().getLayoutParams().width,snackbarWeakReference.get().getView().getLayoutParams().height);
-            params.gravity = gravity;
-            snackbar.getView().setLayoutParams(params);
-        }
-        return new SnackbarUtils(snackbarWeakReference);
+        CoordinatorLayout.LayoutParams params = new CoordinatorLayout.LayoutParams(mSnackbar.getView().getLayoutParams().width,mSnackbar.getView().getLayoutParams().height);
+        params.gravity = gravity;
+        mSnackbar.getView().setLayoutParams(params);
+        return new SnackbarUtils(mSnackbar);
     }
 
     /**
@@ -353,12 +315,7 @@ public class SnackbarUtils {
      * @return
      */
     public SnackbarUtils setAction(@StringRes int resId, View.OnClickListener listener){
-        Snackbar snackbar = getSnackbar();
-        if(snackbar!=null){
-            return setAction(snackbar.getView().getResources().getText(resId), listener);
-        }else {
-            return new SnackbarUtils(snackbarWeakReference);
-        }
+        return setAction(getSnackbar().getView().getResources().getText(resId), listener);
     }
 
     /**
@@ -369,11 +326,8 @@ public class SnackbarUtils {
      * @return
      */
     public SnackbarUtils setAction(CharSequence text, View.OnClickListener listener){
-        Snackbar snackbar = getSnackbar();
-        if(snackbar!=null){
-            snackbar.setAction(text,listener);
-        }
-        return new SnackbarUtils(snackbarWeakReference);
+        mSnackbar.setAction(text,listener);
+        return new SnackbarUtils(mSnackbar);
     }
 
     /**
@@ -382,11 +336,8 @@ public class SnackbarUtils {
      * @return
      */
     public SnackbarUtils setCallback(Snackbar.Callback setCallback){
-        Snackbar snackbar = getSnackbar();
-        if(snackbar!=null){
-            snackbar.setCallback(setCallback);
-        }
-        return new SnackbarUtils(snackbarWeakReference);
+        mSnackbar.setCallback(setCallback);
+        return new SnackbarUtils(mSnackbar);
     }
 
     /**
@@ -396,26 +347,23 @@ public class SnackbarUtils {
      * @return
      */
     public SnackbarUtils leftAndRightDrawable(@Nullable @DrawableRes Integer leftDrawable, @Nullable @DrawableRes Integer rightDrawable){
-        Snackbar snackbar = getSnackbar();
-        if(snackbar!=null){
-            Drawable drawableLeft = null;
-            Drawable drawableRight = null;
-            if(leftDrawable!=null){
-                try {
-                    drawableLeft = snackbar.getView().getResources().getDrawable(leftDrawable.intValue());
-                }catch (Exception e){
-                }
+        Drawable drawableLeft = null;
+        Drawable drawableRight = null;
+        if(leftDrawable!=null){
+            try {
+                drawableLeft = getSnackbar().getView().getResources().getDrawable(leftDrawable.intValue());
+            }catch (Exception e){
+                Log.e("Jet","getSnackbar().getView().getResources().getDrawable(leftDrawable.intValue())");
             }
-            if(rightDrawable!=null){
-                try {
-                    drawableRight = snackbar.getView().getResources().getDrawable(rightDrawable.intValue());
-                }catch (Exception e){
-                }
-            }
-            return leftAndRightDrawable(drawableLeft,drawableRight);
-        }else {
-            return new SnackbarUtils(snackbarWeakReference);
         }
+        if(rightDrawable!=null){
+            try {
+                drawableRight = getSnackbar().getView().getResources().getDrawable(rightDrawable.intValue());
+            }catch (Exception e){
+                Log.e("Jet","getSnackbar().getView().getResources().getDrawable(rightDrawable.intValue())");
+            }
+        }
+        return leftAndRightDrawable(drawableLeft,drawableRight);
     }
 
     /**
@@ -425,26 +373,23 @@ public class SnackbarUtils {
      * @return
      */
     public SnackbarUtils leftAndRightDrawable(@Nullable Drawable leftDrawable, @Nullable Drawable rightDrawable){
-        Snackbar snackbar = getSnackbar();
-        if(snackbar!=null){
-            TextView message = (TextView) snackbar.getView().findViewById(R.id.snackbar_text);
-            LinearLayout.LayoutParams paramsMessage = (LinearLayout.LayoutParams) message.getLayoutParams();
-            paramsMessage = new LinearLayout.LayoutParams(paramsMessage.width, paramsMessage.height,0.0f);
-            message.setLayoutParams(paramsMessage);
-            message.setCompoundDrawablePadding(message.getPaddingLeft());
-            int textSize = (int) message.getTextSize();
-            Log.e("Jet","textSize:"+textSize);
-            if(leftDrawable!=null){
-                leftDrawable.setBounds(0,0,textSize,textSize);
-            }
-            if(rightDrawable!=null){
-                rightDrawable.setBounds(0,0,textSize,textSize);
-            }
-            message.setCompoundDrawables(leftDrawable,null,rightDrawable,null);
-            LinearLayout.LayoutParams paramsSpace = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,LinearLayout.LayoutParams.WRAP_CONTENT,1.0f);
-            ((Snackbar.SnackbarLayout)snackbar.getView()).addView(new Space(snackbar.getView().getContext()),1,paramsSpace);
+        TextView message = (TextView) mSnackbar.getView().findViewById(R.id.snackbar_text);
+        LinearLayout.LayoutParams paramsMessage = (LinearLayout.LayoutParams) message.getLayoutParams();
+        paramsMessage = new LinearLayout.LayoutParams(paramsMessage.width, paramsMessage.height,0.0f);
+        message.setLayoutParams(paramsMessage);
+        message.setCompoundDrawablePadding(message.getPaddingLeft());
+        int textSize = (int) message.getTextSize();
+        Log.e("Jet","textSize:"+textSize);
+        if(leftDrawable!=null){
+            leftDrawable.setBounds(0,0,textSize,textSize);
         }
-        return new SnackbarUtils(snackbarWeakReference);
+        if(rightDrawable!=null){
+            rightDrawable.setBounds(0,0,textSize,textSize);
+        }
+        message.setCompoundDrawables(leftDrawable,null,rightDrawable,null);
+        LinearLayout.LayoutParams paramsSpace = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,LinearLayout.LayoutParams.WRAP_CONTENT,1.0f);
+        ((Snackbar.SnackbarLayout)mSnackbar.getView()).addView(new Space(mSnackbar.getView().getContext()),1,paramsSpace);
+        return new SnackbarUtils(mSnackbar);
     }
 
     /**
@@ -454,15 +399,12 @@ public class SnackbarUtils {
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     public SnackbarUtils messageCenter(){
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1){
-            Snackbar snackbar = getSnackbar();
-            if(snackbar!=null){
-                TextView message = (TextView) snackbar.getView().findViewById(R.id.snackbar_text);
-                //View.setTextAlignment需要SDK>=17
-                message.setTextAlignment(View.TEXT_ALIGNMENT_GRAVITY);
-                message.setGravity(Gravity.CENTER);
-            }
+            TextView message = (TextView) mSnackbar.getView().findViewById(R.id.snackbar_text);
+            //View.setTextAlignment需要SDK>=17
+            message.setTextAlignment(View.TEXT_ALIGNMENT_GRAVITY);
+            message.setGravity(Gravity.CENTER);
         }
-        return new SnackbarUtils(snackbarWeakReference);
+        return new SnackbarUtils(mSnackbar);
     }
 
     /**
@@ -472,15 +414,12 @@ public class SnackbarUtils {
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     public SnackbarUtils messageRight(){
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1){
-            Snackbar snackbar = getSnackbar();
-            if(snackbar!=null){
-                TextView message = (TextView) snackbar.getView().findViewById(R.id.snackbar_text);
-                //View.setTextAlignment需要SDK>=17
-                message.setTextAlignment(View.TEXT_ALIGNMENT_GRAVITY);
-                message.setGravity(Gravity.CENTER_VERTICAL|Gravity.RIGHT);
-            }
+            TextView message = (TextView) mSnackbar.getView().findViewById(R.id.snackbar_text);
+            //View.setTextAlignment需要SDK>=17
+            message.setTextAlignment(View.TEXT_ALIGNMENT_GRAVITY);
+            message.setGravity(Gravity.CENTER_VERTICAL|Gravity.RIGHT);
         }
-        return new SnackbarUtils(snackbarWeakReference);
+        return new SnackbarUtils(mSnackbar);
     }
 
     /**
@@ -490,14 +429,9 @@ public class SnackbarUtils {
      * @return
      */
     public SnackbarUtils addView(int layoutId, int index) {
-        Snackbar snackbar = getSnackbar();
-        if(snackbar!=null){
-            //加载布局文件新建View
-            View addView = LayoutInflater.from(snackbar.getView().getContext()).inflate(layoutId,null);
-            return addView(addView,index);
-        }else {
-            return new SnackbarUtils(snackbarWeakReference);
-        }
+        //加载布局文件新建View
+        View addView = LayoutInflater.from(mSnackbar.getView().getContext()).inflate(layoutId,null);
+        return addView(addView,index);
     }
 
     /**
@@ -507,15 +441,12 @@ public class SnackbarUtils {
      * @return
      */
     public SnackbarUtils addView(View addView, int index) {
-        Snackbar snackbar = getSnackbar();
-        if(snackbar!=null){
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,LinearLayout.LayoutParams.WRAP_CONTENT);//设置新建布局参数
-            //设置新建View在Snackbar内垂直居中显示
-            params.gravity= Gravity.CENTER_VERTICAL;
-            addView.setLayoutParams(params);
-            ((Snackbar.SnackbarLayout)snackbar.getView()).addView(addView,index);
-        }
-        return new SnackbarUtils(snackbarWeakReference);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,LinearLayout.LayoutParams.WRAP_CONTENT);//设置新建布局参数
+        //设置新建View在Snackbar内垂直居中显示
+        params.gravity= Gravity.CENTER_VERTICAL;
+        addView.setLayoutParams(params);
+        ((Snackbar.SnackbarLayout)mSnackbar.getView()).addView(addView,index);
+        return new SnackbarUtils(mSnackbar);
     }
 
     /**
@@ -526,12 +457,7 @@ public class SnackbarUtils {
      * @return
      */
     public SnackbarUtils margins(int margin){
-        Snackbar snackbar = getSnackbar();
-        if(snackbar!=null){
-            return margins(margin,margin,margin,margin);
-        }else {
-            return new SnackbarUtils(snackbarWeakReference);
-        }
+        return margins(margin,margin,margin,margin);
     }
 
     /**
@@ -545,13 +471,10 @@ public class SnackbarUtils {
      * @return
      */
     public SnackbarUtils margins(int left, int top, int right, int bottom){
-        Snackbar snackbar = getSnackbar();
-        if(snackbar!=null){
-            ViewGroup.LayoutParams params = snackbar.getView().getLayoutParams();
-            ((ViewGroup.MarginLayoutParams) params).setMargins(left,top,right,bottom);
-            snackbar.getView().setLayoutParams(params);
-        }
-        return new SnackbarUtils(snackbarWeakReference);
+        ViewGroup.LayoutParams params = mSnackbar.getView().getLayoutParams();
+        ((ViewGroup.MarginLayoutParams) params).setMargins(left,top,right,bottom);
+        mSnackbar.getView().setLayoutParams(params);
+        return new SnackbarUtils(mSnackbar);
     }
 
     /**
@@ -562,7 +485,7 @@ public class SnackbarUtils {
      */
     /*
     public SnackbarUtils radius(){
-        Drawable background = snackbarWeakReference.get().getView().getBackground();
+        Drawable background = mSnackbar.getView().getBackground();
         if(background instanceof GradientDrawable){
             Log.e("Jet","radius():GradientDrawable");
         }
@@ -600,17 +523,14 @@ public class SnackbarUtils {
      * @return
      */
     public SnackbarUtils radius(float radius){
-        Snackbar snackbar = getSnackbar();
-        if(snackbar!=null){
-            //将要设置给mSnackbar的背景
-            GradientDrawable background = getRadiusDrawable(snackbar.getView().getBackground());
-            if(background != null){
-                radius = radius<=0?12:radius;
-                background.setCornerRadius(radius);
-                snackbar.getView().setBackgroundDrawable(background);
-            }
+        //将要设置给mSnackbar的背景
+        GradientDrawable background = getRadiusDrawable(mSnackbar.getView().getBackground());
+        if(background != null){
+            radius = radius<=0?12:radius;
+            background.setCornerRadius(radius);
+            mSnackbar.getView().setBackgroundDrawable(background);
         }
-        return new SnackbarUtils(snackbarWeakReference);
+        return new SnackbarUtils(mSnackbar);
     }
 
     /**
@@ -621,19 +541,16 @@ public class SnackbarUtils {
      * @return
      */
     public SnackbarUtils radius(int radius, int strokeWidth, @ColorInt int strokeColor){
-        Snackbar snackbar = getSnackbar();
-        if(snackbar!=null){
-            //将要设置给mSnackbar的背景
-            GradientDrawable background = getRadiusDrawable(snackbar.getView().getBackground());
-            if(background != null){
-                radius = radius<=0?12:radius;
-                strokeWidth = strokeWidth<=0?1:(strokeWidth>=snackbar.getView().findViewById(R.id.snackbar_text).getPaddingTop()?2:strokeWidth);
-                background.setCornerRadius(radius);
-                background.setStroke(strokeWidth,strokeColor);
-                snackbar.getView().setBackgroundDrawable(background);
-            }
+        //将要设置给mSnackbar的背景
+        GradientDrawable background = getRadiusDrawable(mSnackbar.getView().getBackground());
+        if(background != null){
+            radius = radius<=0?12:radius;
+            strokeWidth = strokeWidth<=0?1:(strokeWidth>=mSnackbar.getView().findViewById(R.id.snackbar_text).getPaddingTop()?2:strokeWidth);
+            background.setCornerRadius(radius);
+            background.setStroke(strokeWidth,strokeColor);
+            mSnackbar.getView().setBackgroundDrawable(background);
         }
-        return new SnackbarUtils(snackbarWeakReference);
+        return new SnackbarUtils(mSnackbar);
     }
 
     /**
@@ -658,8 +575,8 @@ public class SnackbarUtils {
                 android:textAlignment="viewStart"/>
         */
         //文字高度+paddingTop+paddingBottom : 14sp + 14dp*2
-        int SnackbarHeight = ScreenUtil.dp2px(snackbarWeakReference.get().getView().getContext(),28) + ScreenUtil.sp2px(snackbarWeakReference.get().getView().getContext(),14);
-        Log.e("Jet","直接获取MessageView高度:"+snackbarWeakReference.get().getView().findViewById(R.id.snackbar_text).getHeight());
+        int SnackbarHeight = ScreenUtil.dp2px(mSnackbar.getView().getContext(),28) + ScreenUtil.sp2px(mSnackbar.getView().getContext(),14);
+        Log.e("Jet","直接获取MessageView高度:"+mSnackbar.getView().findViewById(R.id.snackbar_text).getHeight());
         return SnackbarHeight;
     }
 
@@ -673,24 +590,21 @@ public class SnackbarUtils {
      * @return
      */
     public SnackbarUtils above(View targetView, int contentViewTop, int marginLeft, int marginRight){
-        Snackbar snackbar = getSnackbar();
-        if(snackbar!=null){
-            marginLeft = marginLeft<=0?0:marginLeft;
-            marginRight = marginRight<=0?0:marginRight;
-            int[] locations = new int[2];
-            targetView.getLocationOnScreen(locations);
-            Log.e("Jet","距离屏幕左侧:"+locations[0]+"==距离屏幕顶部:"+locations[1]);
-            int snackbarHeight = calculateSnackBarHeight();
-            Log.e("Jet","Snackbar高度:"+snackbarHeight);
-            //必须保证指定View的顶部可见 且 单行Snackbar可以完整的展示
-            if(locations[1] >= contentViewTop+snackbarHeight){
-                gravityFrameLayout(Gravity.BOTTOM);
-                ViewGroup.LayoutParams params = snackbar.getView().getLayoutParams();
-                ((ViewGroup.MarginLayoutParams) params).setMargins(marginLeft,0,marginRight,snackbar.getView().getResources().getDisplayMetrics().heightPixels-locations[1]);
-                snackbar.getView().setLayoutParams(params);
-            }
+        marginLeft = marginLeft<=0?0:marginLeft;
+        marginRight = marginRight<=0?0:marginRight;
+        int[] locations = new int[2];
+        targetView.getLocationOnScreen(locations);
+        Log.e("Jet","距离屏幕左侧:"+locations[0]+"==距离屏幕顶部:"+locations[1]);
+        int snackbarHeight = calculateSnackBarHeight();
+        Log.e("Jet","Snackbar高度:"+snackbarHeight);
+        //必须保证指定View的顶部可见 且 单行Snackbar可以完整的展示
+        if(locations[1] >= contentViewTop+snackbarHeight){
+            gravityFrameLayout(Gravity.BOTTOM);
+            ViewGroup.LayoutParams params = mSnackbar.getView().getLayoutParams();
+            ((ViewGroup.MarginLayoutParams) params).setMargins(marginLeft,0,marginRight,mSnackbar.getView().getResources().getDisplayMetrics().heightPixels-locations[1]);
+            mSnackbar.getView().setLayoutParams(params);
         }
-        return new SnackbarUtils(snackbarWeakReference);
+        return new SnackbarUtils(mSnackbar);
     }
 
     /**
@@ -703,34 +617,31 @@ public class SnackbarUtils {
      * @return
      */
     public SnackbarUtils bellow(View targetView, int contentViewTop, int marginLeft, int marginRight){
-        Snackbar snackbar = getSnackbar();
-        if(snackbar!=null){
-            marginLeft = marginLeft<=0?0:marginLeft;
-            marginRight = marginRight<=0?0:marginRight;
-            int[] locations = new int[2];
-            targetView.getLocationOnScreen(locations);
-            int snackbarHeight = calculateSnackBarHeight();
-            int screenHeight = ScreenUtil.getScreenHeight(snackbar.getView().getContext());
-            //必须保证指定View的底部可见 且 单行Snackbar可以完整的展示
-            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
-                //为什么要'+2'? 因为在Android L(Build.VERSION_CODES.LOLLIPOP)以上,例如Button会有一定的'阴影(shadow)',阴影的大小由'高度(elevation)'决定.
-                //为了在Android L以上的系统中展示的Snackbar不要覆盖targetView的阴影部分太大比例,所以人为减小2px的layout_marginBottom属性.
-                if(locations[1]+targetView.getHeight()>=contentViewTop&&locations[1]+targetView.getHeight()+snackbarHeight+2<=screenHeight){
-                    gravityFrameLayout(Gravity.BOTTOM);
-                    ViewGroup.LayoutParams params = snackbar.getView().getLayoutParams();
-                    ((ViewGroup.MarginLayoutParams) params).setMargins(marginLeft,0,marginRight,screenHeight - (locations[1]+targetView.getHeight()+snackbarHeight+2));
-                    snackbar.getView().setLayoutParams(params);
-                }
-            }else {
-                if(locations[1]+targetView.getHeight()>=contentViewTop&&locations[1]+targetView.getHeight()+snackbarHeight<=screenHeight){
-                    gravityFrameLayout(Gravity.BOTTOM);
-                    ViewGroup.LayoutParams params = snackbar.getView().getLayoutParams();
-                    ((ViewGroup.MarginLayoutParams) params).setMargins(marginLeft,0,marginRight,screenHeight - (locations[1]+targetView.getHeight()+snackbarHeight));
-                    snackbar.getView().setLayoutParams(params);
-                }
+        marginLeft = marginLeft<=0?0:marginLeft;
+        marginRight = marginRight<=0?0:marginRight;
+        int[] locations = new int[2];
+        targetView.getLocationOnScreen(locations);
+        int snackbarHeight = calculateSnackBarHeight();
+        int screenHeight = ScreenUtil.getScreenHeight(mSnackbar.getView().getContext());
+        //必须保证指定View的底部可见 且 单行Snackbar可以完整的展示
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
+            //为什么要'+2'? 因为在Android L(Build.VERSION_CODES.LOLLIPOP)以上,例如Button会有一定的'阴影(shadow)',阴影的大小由'高度(elevation)'决定.
+            //为了在Android L以上的系统中展示的Snackbar不要覆盖targetView的阴影部分太大比例,所以人为减小2px的layout_marginBottom属性.
+            if(locations[1]+targetView.getHeight()>=contentViewTop&&locations[1]+targetView.getHeight()+snackbarHeight+2<=screenHeight){
+                gravityFrameLayout(Gravity.BOTTOM);
+                ViewGroup.LayoutParams params = mSnackbar.getView().getLayoutParams();
+                ((ViewGroup.MarginLayoutParams) params).setMargins(marginLeft,0,marginRight,screenHeight - (locations[1]+targetView.getHeight()+snackbarHeight+2));
+                mSnackbar.getView().setLayoutParams(params);
+            }
+        }else {
+            if(locations[1]+targetView.getHeight()>=contentViewTop&&locations[1]+targetView.getHeight()+snackbarHeight<=screenHeight){
+                gravityFrameLayout(Gravity.BOTTOM);
+                ViewGroup.LayoutParams params = mSnackbar.getView().getLayoutParams();
+                ((ViewGroup.MarginLayoutParams) params).setMargins(marginLeft,0,marginRight,screenHeight - (locations[1]+targetView.getHeight()+snackbarHeight));
+                mSnackbar.getView().setLayoutParams(params);
             }
         }
-        return new SnackbarUtils(snackbarWeakReference);
+        return new SnackbarUtils(mSnackbar);
     }
 
 
@@ -738,9 +649,11 @@ public class SnackbarUtils {
      * 显示 mSnackbar
      */
     public void show(){
-        if(getSnackbar()!=null){
-            snackbarWeakReference.get().show();
+        if(mSnackbar!=null){
+            Log.e("Jet","show");
+            mSnackbar.show();
         }else {
+            Log.e("Jet","mSnackbar=null");
         }
     }
 }
