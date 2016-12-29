@@ -95,11 +95,7 @@
                 .backColor(0XFF668899)
                 .radius(16,1,Color.BLUE)
                 .bellow(bt_margins,total,16,16)
-                .show();  
-### 点击'疯狂测试',在AS下查看内存占用情况:  
-使用弱引用:&emsp;&emsp;![](https://github.com/HuanHaiLiuXin/SnackbarUtils/blob/master/%E5%8F%98%E5%8A%A8%E8%AE%B0%E5%BD%95/SnackbarUtils(3)-%E4%BD%BF%E7%94%A8%E5%BC%B1%E5%BC%95%E7%94%A8%E5%86%85%E5%AD%98%E4%BD%BF%E7%94%A8%E6%83%85%E5%86%B5.gif)  
-不使用弱引用:&emsp;&emsp;![](https://github.com/HuanHaiLiuXin/SnackbarUtils/blob/master/%E5%8F%98%E5%8A%A8%E8%AE%B0%E5%BD%95/SnackbarUtils(4)-%E5%86%85%E5%AD%98%E4%BD%BF%E7%94%A8%E6%83%85%E5%86%B5.gif)*通过录屏GIF对比,发现单纯使用弱引用,Snackbar引起的内存泄漏情况未明显改善,当然也许是使用方法不当,如果哪位同学有更好的办法,还请QQ或者邮件告知!*  
-*关于内存占用情况,及对应的SnacbarUtils版本,都在[变动记录](https://github.com/HuanHaiLiuXin/SnackbarUtils/tree/master/%E5%8F%98%E5%8A%A8%E8%AE%B0%E5%BD%95)中,需要的同学可以查看!*  
+                .show();    
 
 ### 参考:
 &emsp;&emsp;写的很好的Snackbar源码分析  
