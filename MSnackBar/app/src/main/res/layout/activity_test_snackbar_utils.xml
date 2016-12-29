@@ -13,6 +13,13 @@
         android:orientation="vertical"
         >
         <Button
+            android:id="@+id/bt_memory"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/memoryleak"
+            />
+
+        <Button
             android:id="@+id/crazybutton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

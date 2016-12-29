@@ -3,6 +3,7 @@ package com.jet.msnackbar;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -14,7 +15,7 @@ import android.widget.Toast;
 
 public class TestSnackbarUtilsActivity extends AppCompatActivity implements View.OnClickListener{
     private Context context = null;
-    private Button crazybutton;
+    private Button bt_memory,crazybutton;
     private Button bt_short,bt_long,bt_indefinite,bt_length_custom,
             bt_info,bt_confirm,bt_warn,bt_danger,bt_back_custom,
             bt_color_message,bt_color_action,bt_back_alpha,bt_action,bt_callback,
@@ -22,15 +23,19 @@ public class TestSnackbarUtilsActivity extends AppCompatActivity implements View
             bt_message_leftright_drawable,bt_addview,bt_radius,bt_radius_stroke,
             bt_gravity_default,bt_gravity_top,bt_gravity_center,
             bt_margins,bt_above,bt_bellow,bt_multimethods;
+    private SnackbarUtils instance = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test_snackbar_utils);
         context = this;
+
         //
         crazybutton = (Button) findViewById(R.id.crazybutton);
         crazybutton.setOnClickListener(this);
+        bt_memory = (Button) findViewById(R.id.bt_memory);
+        bt_memory.setOnClickListener(this);
         //
         bt_short = (Button) findViewById(R.id.bt_short);
         findViewById(R.id.bt_short).setOnClickListener(this);
@@ -88,11 +93,33 @@ public class TestSnackbarUtilsActivity extends AppCompatActivity implements View
         findViewById(R.id.bt_bellow).setOnClickListener(this);
         bt_multimethods = (Button) findViewById(R.id.bt_multimethods);
         findViewById(R.id.bt_multimethods).setOnClickListener(this);
+        instance = SnackbarUtils.Long(bt_confirm,"背景色:confirm").confirm();
     }
 
+    private Handler handler = new Handler();
+    Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+            Log.e("Jet","Activity is null?"+(TestSnackbarUtilsActivity.this == null));
+            if(TestSnackbarUtilsActivity.this.isDestroyed()){
+                Log.e("Jet","已结销毁了");
+                instance.show();
+            }else{
+                Log.e("Jet","未销毁,20s后继续尝试");
+                finish();
+                handler.postDelayed(runnable,1000 * 20);
+            }
+        }
+    };
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.bt_memory:
+                //尝试制造内存泄漏
+                finish();
+                handler.postDelayed(runnable,1000 * 20);
+//                instance.show();
+                break;
             case R.id.bt_short:
                 //TODO implement
                 SnackbarUtils.Short(bt_short,"显示时长:短+info").info().show();

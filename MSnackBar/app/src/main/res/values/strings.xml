@@ -34,4 +34,5 @@
     <string name="snackbargravity">Snackbar位置</string>
     <string name="multimethods">同时使用多种方法</string>
     <string name="crazybutton">疯狂测试!!!</string>
+    <string name="memoryleak">尝试内存泄漏</string>
 </resources>
